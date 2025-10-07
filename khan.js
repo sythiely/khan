@@ -1,3 +1,4 @@
+// Sythiely
 // ☪️ Crimson Mod v1.0.0 - Desobfuscado
 // Mod educacional para Khan Academy
 
