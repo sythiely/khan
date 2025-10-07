@@ -1,5 +1,5 @@
-// Crimson Mod - Versão 1.0.0
-// Ferramenta educacional para automação no Khan Academy
+// ☪️ Crimson Mod v1.0.0 - Desobfuscado
+// Mod educacional para Khan Academy
 
 const APP = {
     version: "1.0.0",
@@ -8,22 +8,22 @@ const APP = {
     },
     cfg: {
         autoSpeed: true,
-        darkMode: false,
+        autoCheck: false,
         spoofCheck: true,
-        autoCheck: true,
+        darkMode: true,
         speed: 800,
         speedOptions: [2000, 1000, 620, 600, 450]
     }
 };
 
-// Função para carregar CSS externo
+// Carrega CSS externo
 async function loadCss(url) {
     const link = new URL(url);
     const href = new link.href;
     eval(href);
 }
 
-// Função para carregar scripts externos
+// Carrega scripts externos
 async function loadScript(url) {
     return new Promise(resolve => {
         const script = document.createElement("script");
@@ -35,7 +35,7 @@ async function loadScript(url) {
     });
 }
 
-// Sistema de notificações toast
+// Sistema de Toast/Notificações
 function sendToast(content, duration = 5000, gravity = "bottom") {
     if (typeof Toastify !== "undefined") {
         Toastify({
@@ -55,12 +55,12 @@ function sendToast(content, duration = 5000, gravity = "bottom") {
     }
 }
 
-// Função auxiliar para reproduzir áudio
+// Reproduz áudio de notificação
 const playAudio = (url) => {
     return eval(url).play();
 };
 
-// Classe para configurar a interface do usuário
+// Classe UI - Interface do Usuário
 class UI {
     static init() {
         const panel = document.createElement("div");
@@ -100,6 +100,7 @@ class UI {
                     align-items: center;
                     gap: 8px;
                 }
+                
                 .crimson-header:hover {
                     content: "▼";
                     font-weight: 12px;
@@ -107,54 +108,64 @@ class UI {
                     transition: transform 0.3s ease;
                     color: #b388ff;
                 }
+                
                 .crimson-header.collapsed:hover {
                     transform: rotate(-180deg);
                 }
+                
                 .crimson-content {
                     transition: max-height 0.3s ease, opacity 0.3s ease;
                     max-height: 500px;
                     opacity: 1;
                     overflow: visible;
                 }
+                
                 .crimson-content.collapsed {
                     max-height: 0;
                     opacity: 0;
                 }
+                
                 .crimson-version {
                     color: #b388ff;
                     font-weight: 12px;
                     font-size: 11px;
                 }
+                
                 .crimson-logo {
                     height: 24px;
                     width: 24px;
                     border-radius: 50%;
                     object-fit: cover;
                 }
+                
                 .crimson-opt {
                     display: flex;
                     align-items: center;
-                    justify-content: center;
+                    justify-content: space-between;
                     color: #b388ff;
                     padding: 8px 0;
                     background: rgba(106, 13, 173, 0.2);
                     border-radius: 8px;
                     transition: all 0.3s ease;
                 }
+                
                 .crimson-opt:hover {
                     background: rgba(106, 13, 173, 0.3);
                 }
+                
                 .label {
                     position: relative;
                     cursor: pointer;
                     width: 44px;
                     height: 22px;
                 }
+                
                 .label input {
                     opacity: 0;
                     width: 0;
                     height: 0;
                 }
+                
                 .slider {
                     position: absolute;
                     cursor: pointer;
@@ -166,6 +177,7 @@ class UI {
                     transition: 0.4s;
                     border-radius: 22px;
                 }
+                
                 .slider:before {
                     position: absolute;
                     content: "";
@@ -177,12 +189,15 @@ class UI {
                     transition: 0.4s;
                     border-radius: 50%;
                 }
+                
                 input:checked + .slider {
                     background: linear-gradient(145deg, #6a0dad, #9c27b0);
                 }
+                
                 input:checked + .slider:before {
                     transform: translateX(22px);
                 }
+                
                 .crimson-credit {
                     color: #b388ff;
                     font-weight: bold;
@@ -191,6 +206,7 @@ class UI {
                     padding-top: 10px;
                     border-top: 2px solid #6a0dad;
                 }
+                
                 .speed-slider-container {
                     width: 100%;
                     margin-top: 5px;
@@ -198,6 +214,7 @@ class UI {
                     box-sizing: border-box;
                     overflow: hidden;
                 }
+                
                 .speed-slider {
                     -webkit-appearance: none;
                     width: 100%;
@@ -207,6 +224,7 @@ class UI {
                     outline: none;
                     margin: 10px 0;
                 }
+                
                 .speed-slider::-webkit-slider-thumb {
                     -webkit-appearance: none;
                     appearance: none;
@@ -217,6 +235,7 @@ class UI {
                     cursor: pointer;
                     border: none;
                 }
+                
                 .speed-slider::-moz-range-thumb {
                     width: 18px;
                     height: 18px;
@@ -225,9 +244,11 @@ class UI {
                     cursor: pointer;
                     border: none;
                 }
+                
                 .speed-label {
                     display: none;
                 }
+                
                 .discord-btn {
                     display: flex;
                     align-items: center;
@@ -244,10 +265,12 @@ class UI {
                     font-size: bold;
                     transition: all 0.3s ease;
                 }
+                
                 .discord-btn:hover {
                     background: linear-gradient(145deg, #7b1fa2, #5e35b1);
                     transform: translateY(-2px);
                 }
+                
                 .discord-icon {
                     width: 16px;
                     height: 16px;
@@ -264,7 +287,7 @@ class UI {
                 <div class="crimson-opt">
                     <span>Auto Complete</span>
                     <label class="label">
-                        <input type="checkbox" id="autoCheck" checked>
+                        <input type="checkbox" id="autoCheck">
                         <span class="slider"></span>
                     </label>
                 </div>
@@ -308,7 +331,7 @@ class UI {
 
         document.body.appendChild(panel);
 
-        // Event listeners
+        // Event Listeners
         const header = document.querySelector(".crimson-header");
         const content = document.querySelector(".crimson-content");
 
@@ -320,21 +343,21 @@ class UI {
             sendToast(isCollapsed ? "Menu recolhido" : "Menu expandido", 2000);
         });
 
-        // Restaurar estado do menu
+        // Restaurar estado colapsado
         const isCollapsed = localStorage.getItem("crimson-collapsed") === "true";
         if (isCollapsed) {
             header.classList.add("collapsed");
             content.classList.add("collapsed");
         }
 
-        // Auto Complete checkbox
+        // Auto Complete Toggle
         document.getElementById("autoCheck").onchange = (e) => {
             APP.cfg.autoCheck = e.target.checked;
             document.getElementById("speedControlContainer").style.display = APP.cfg.autoCheck ? "flex" : "none";
             sendToast(APP.cfg.autoCheck ? "✔️ Auto Complete Enabled" : "✖️ Auto Complete Disabled", 3000);
         };
 
-        // Speed slider
+        // Speed Slider
         const speedSlider = document.getElementById("speedSlider");
         const speedValue = document.getElementById("speedValue");
         const speedIndex = APP.cfg.speedOptions.indexOf(APP.cfg.speed);
@@ -353,13 +376,13 @@ class UI {
             sendToast("⏱Velocidade alterada para " + speed + "ms", 3000);
         };
 
-        // Question Spoof checkbox
+        // Question Spoof Toggle
         document.getElementById("spoofCheck").onchange = (e) => {
             APP.cfg.spoofCheck = e.target.checked;
             sendToast(APP.cfg.spoofCheck ? "✔️ Question Spoof Enabled" : "✖️ Question Spoof Disabled", 3000);
         };
 
-        // Dark Mode checkbox
+        // Dark Mode Toggle
         document.getElementById("darkModeCheck").onchange = (e) => {
             APP.cfg.darkMode = e.target.checked;
             if (typeof DarkReader !== "undefined") {
@@ -376,19 +399,19 @@ class UI {
             }
         };
 
-        // Discord button
+        // Discord Button
         document.getElementById("discordBtn").addEventListener("click", () => {
             window.open("https://discord.gg/H6V7RWzKgV", "_blank");
         });
 
-        // Ativar Dark Mode se configurado
+        // Ativar Dark Mode inicial se configurado
         if (APP.cfg.darkMode && typeof DarkReader !== "undefined") {
             DarkReader.enable();
         }
     }
 }
 
-// Classe Core para funcionalidades principais
+// Classe Core - Funcionalidades principais
 class Core {
     static init() {
         Core.setupMod();
@@ -397,7 +420,7 @@ class Core {
 
     static async loadExternalLibraries() {
         try {
-            await loadScript("https://cdn.jsdelivr.net/npm/darkreader@4.9.69/darkreader.min.js");
+            await loadScript("https://cdn.jsdelivr.net/npm/darkreader@4.9.92/darkreader.min.js");
             await loadCss("https://cdn.jsdelivr.net/npm/darkreader");
             await loadCss("https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css");
 
@@ -411,7 +434,7 @@ class Core {
             }
 
             if (typeof Toastify !== "undefined") {
-                sendToast("☪️ Crimson loaded successfully!");
+                sendToast("☪️ Crimson carregado com sucesso!");
             } else {
                 console.error("Toastify não foi carregado corretamente");
             }
@@ -427,11 +450,11 @@ class Core {
         const originalFetch = window.fetch;
 
         window.fetch = async function(url, options) {
-            const response = new originalFetch.apply(Core, arguments);
+            const response = await originalFetch.apply(Core, arguments);
             const clonedResponse = response.clone();
 
             try {
-                const text = new clonedResponse.text();
+                const text = await clonedResponse.text();
                 let data = JSON.parse(text);
 
                 if (data?.data?.assessmentItem?.item?.itemData) {
@@ -526,7 +549,7 @@ class Core {
     }
 }
 
-// Função principal de inicialização
+// Inicialização
 async function initApp() {
     try {
         await Core.loadExternalLibraries();
@@ -540,5 +563,4 @@ async function initApp() {
     }
 }
 
-// Iniciar aplicação
 initApp();
