@@ -1,3 +1,4 @@
+// fdssdf
 // ☪️ Crimson Mod v1.0.0 - Desobfuscado
 // Mod educacional para Khan Academy
 
@@ -74,6 +75,7 @@ class UI {
             background: "linear-gradient(145deg, #2a0a4a, #1a0630)",
             padding: "12px",
             display: "flex",
+            flexDirection: "column",
             borderRadius: "8px",
             zIndex: "9999",
             boxShadow: "0 4px 15px rgba(106, 13, 173, 0.5)",
@@ -85,39 +87,45 @@ class UI {
 
         panel.innerHTML = `
             <style>
+                #crimson-panel * {
+                    box-sizing: border-box;
+                }
+                
                 .crimson-header {
                     color: #b388ff;
                     font-weight: bold;
-                    font-size: bold;
+                    font-size: 16px;
                     text-align: center;
-                    margin-top: 10px;
-                    padding-top: 10px;
-                    border-top: 2px solid #6a0dad;
+                    margin: 0 0 10px 0;
+                    padding: 10px 0;
+                    border-bottom: 2px solid #6a0dad;
                     cursor: pointer;
                     user-select: none;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                     gap: 8px;
+                    flex-wrap: nowrap;
                 }
                 
                 .crimson-header:hover {
-                    content: "▼";
-                    font-weight: 12px;
-                    margin-left: 5px;
-                    transition: transform 0.3s ease;
-                    color: #b388ff;
+                    color: #c5a3ff;
                 }
                 
-                .crimson-header.collapsed:hover {
-                    transform: rotate(-180deg);
+                .crimson-header.collapsed {
+                    margin-bottom: 0;
+                    padding-bottom: 10px;
+                    border-bottom: none;
                 }
                 
                 .crimson-content {
                     transition: max-height 0.3s ease, opacity 0.3s ease;
-                    max-height: 500px;
+                    max-height: 600px;
                     opacity: 1;
-                    overflow: visible;
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
                 }
                 
                 .crimson-content.collapsed {
@@ -127,7 +135,7 @@ class UI {
                 
                 .crimson-version {
                     color: #b388ff;
-                    font-weight: 12px;
+                    font-weight: normal;
                     font-size: 11px;
                 }
                 
@@ -136,6 +144,7 @@ class UI {
                     width: 24px;
                     border-radius: 50%;
                     object-fit: cover;
+                    flex-shrink: 0;
                 }
                 
                 .crimson-opt {
@@ -143,14 +152,20 @@ class UI {
                     align-items: center;
                     justify-content: space-between;
                     color: #b388ff;
-                    padding: 8px 0;
+                    padding: 10px;
                     background: rgba(106, 13, 173, 0.2);
                     border-radius: 8px;
                     transition: all 0.3s ease;
+                    min-height: 45px;
                 }
                 
                 .crimson-opt:hover {
                     background: rgba(106, 13, 173, 0.3);
+                }
+                
+                .crimson-opt > span {
+                    font-size: 14px;
+                    flex: 1;
                 }
                 
                 .label {
@@ -158,12 +173,14 @@ class UI {
                     cursor: pointer;
                     width: 44px;
                     height: 22px;
+                    flex-shrink: 0;
                 }
                 
                 .label input {
                     opacity: 0;
                     width: 0;
                     height: 0;
+                    position: absolute;
                 }
                 
                 .slider {
@@ -205,14 +222,19 @@ class UI {
                     margin-top: 10px;
                     padding-top: 10px;
                     border-top: 2px solid #6a0dad;
+                    font-size: 12px;
+                }
+                
+                .speed-container {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    gap: 5px;
                 }
                 
                 .speed-slider-container {
                     width: 100%;
-                    margin-top: 5px;
-                    padding: 0 2px;
-                    box-sizing: border-box;
-                    overflow: hidden;
+                    padding: 0;
                 }
                 
                 .speed-slider {
@@ -222,7 +244,7 @@ class UI {
                     border-radius: 5px;
                     background: #333;
                     outline: none;
-                    margin: 10px 0;
+                    margin: 0;
                 }
                 
                 .speed-slider::-webkit-slider-thumb {
@@ -246,23 +268,26 @@ class UI {
                 }
                 
                 .speed-label {
-                    display: none;
+                    font-size: 11px;
+                    color: #9c27b0;
+                    text-align: center;
                 }
                 
                 .discord-btn {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    gap: 500px;
+                    gap: 8px;
                     width: 100%;
-                    padding: 8px;
-                    margin-top: 8px;
+                    padding: 10px;
+                    margin: 0;
                     background: linear-gradient(145deg, #6a0dad, #4b0082);
                     color: white;
                     border: none;
                     border-radius: 8px;
                     cursor: pointer;
-                    font-size: bold;
+                    font-size: 14px;
+                    font-weight: bold;
                     transition: all 0.3s ease;
                 }
                 
@@ -272,14 +297,15 @@ class UI {
                 }
                 
                 .discord-icon {
-                    width: 16px;
-                    height: 16px;
+                    width: 18px;
+                    height: 18px;
+                    flex-shrink: 0;
                 }
             </style>
             
             <div class="crimson-header">
                 <img src="https://crimsonstrauss.xyz/img/logo/eclipse.png" class="crimson-logo" alt="Logo">
-                EclipseLunar
+                <span>EclipseLunar</span>
                 <span class="crimson-version">v${APP.version}</span>
             </div>
             
@@ -309,11 +335,11 @@ class UI {
                 </div>
                 
                 <div class="crimson-opt" id="speedControlContainer" style="display: none;">
-                    <span>Velocidade</span>
-                    <div style="width: 100%; display: flex; align-items: center; padding-left: 10px; box-sizing: border-box;">
+                    <div class="speed-container">
+                        <span>Velocidade</span>
                         <div class="speed-slider-container">
-                            <input type="range" min="0" max="3" value="0" class="speed-slider" id="speedSlider">
-                            <div class="speed-label" id="speedValue" style="display: none;">2000ms</div>
+                            <input type="range" min="0" max="4" value="2" class="speed-slider" id="speedSlider">
+                            <div class="speed-label" id="speedValue">800ms</div>
                         </div>
                     </div>
                 </div>
@@ -361,7 +387,7 @@ class UI {
         const speedSlider = document.getElementById("speedSlider");
         const speedValue = document.getElementById("speedValue");
         const speedIndex = APP.cfg.speedOptions.indexOf(APP.cfg.speed);
-        speedSlider.value = speedIndex >= 0 ? speedIndex : 0;
+        speedSlider.value = speedIndex >= 0 ? speedIndex : 2;
 
         speedSlider.oninput = () => {
             const value = parseInt(speedSlider.value);
@@ -373,7 +399,7 @@ class UI {
         speedSlider.onchange = () => {
             const value = parseInt(speedSlider.value);
             const speed = APP.cfg.speedOptions[value];
-            sendToast("⏱Velocidade alterada para " + speed + "ms", 3000);
+            sendToast("⏱️ Velocidade alterada para " + speed + "ms", 3000);
         };
 
         // Question Spoof Toggle
