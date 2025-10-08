@@ -1,26 +1,24 @@
 // ☪️ Crimson Mod v1.0.0 - Desobfuscado
-// Mod educacional para Khan Academy
+// educacional para Khan Academy
 
 const APP = {
     version: "1.0.0",
     
-    // Configurações visuais (fácil de editar)
     theme: {
-        name: "EclipseLunar",
+        name: "Platform Destroyer",
         logo: "https://cdn.discordapp.com/icons/1357569800884326564/5812755cff303460258821269b2d2526.png?size=64",
         colors: {
-            primary: "#6a0dad",      // Roxo principal
-            secondary: "#4b0082",    // Roxo escuro
-            accent: "#b388ff",       // Roxo claro
-            gradient1: "#2a0a4a",    // Fundo gradiente 1
-            gradient2: "#1a0630",    // Fundo gradiente 2
+            primary: "#00bfff",      // Azul claro principal
+            secondary: "#1e90ff",    // Azul médio
+            accent: "#87ceeb",       // Azul céu claro
+            gradient1: "#0a1e3d",    // Fundo gradiente azul escuro 1
+            gradient2: "#06182b",    // Fundo gradiente azul escuro 2
             text: "#ffffff"          // Texto branco
         },
         credits: "Remake by [@sythiely]",
         discordUrl: "https://discord.gg/platformdestroyer"
     },
     
-    // Textos da interface
     texts: {
         autoComplete: "Auto Complete",
         questionSpoof: "Question Spoof",
@@ -28,7 +26,6 @@ const APP = {
         velocity: "Velocidade",
         discord: "Discord",
         
-        // Notificações
         menuCollapsed: "Menu recolhido",
         menuExpanded: "Menu expandido",
         autoCompleteOn: "✔️ Auto Complete Ativado",
@@ -61,10 +58,8 @@ const APP = {
     }
 };
 
-// Variável para controlar se as notificações estão ativas
 let notificationsEnabled = true;
 
-// Carrega CSS externo
 async function loadCss(url) {
     return new Promise(resolve => {
         const link = document.createElement("link");
@@ -76,7 +71,6 @@ async function loadCss(url) {
     });
 }
 
-// Carrega scripts externos
 async function loadScript(url) {
     return new Promise(resolve => {
         const script = document.createElement("script");
@@ -88,7 +82,6 @@ async function loadScript(url) {
     });
 }
 
-// Sistema de Toast/Notificações
 function sendToast(content, duration = 5000, gravity = "bottom") {
     if (!notificationsEnabled) return;
     
@@ -110,13 +103,11 @@ function sendToast(content, duration = 5000, gravity = "bottom") {
     }
 }
 
-// Reproduz áudio de notificação
 const playAudio = (url) => {
     const audio = new Audio(url);
     return audio.play();
 };
 
-// Classe UI - Interface do Usuário
 class UI {
     static init() {
         const panel = document.createElement("div");
@@ -412,7 +403,6 @@ class UI {
 
         document.body.appendChild(panel);
 
-        // Event Listeners
         const header = document.querySelector(".crimson-header");
         const content = document.querySelector(".crimson-content");
 
@@ -424,14 +414,12 @@ class UI {
             sendToast(isCollapsed ? APP.texts.menuCollapsed : APP.texts.menuExpanded, 2000);
         });
 
-        // Restaurar estado colapsado
         const isCollapsed = localStorage.getItem("crimson-collapsed") === "true";
         if (isCollapsed) {
             header.classList.add("collapsed");
             content.classList.add("collapsed");
         }
 
-        // Auto Complete Toggle
         document.getElementById("autoCheck").onchange = (e) => {
             APP.cfg.autoCheck = e.target.checked;
             document.getElementById("speedControlContainer").style.display = APP.cfg.autoCheck ? "flex" : "none";
@@ -439,7 +427,6 @@ class UI {
             console.log(APP.cfg.autoCheck ? "✅ Auto Complete ATIVADO" : "❌ Auto Complete DESATIVADO");
         };
 
-        // Speed Slider
         const speedSlider = document.getElementById("speedSlider");
         const speedValue = document.getElementById("speedValue");
         const speedIndex = APP.cfg.speedOptions.indexOf(APP.cfg.speed);
@@ -458,13 +445,11 @@ class UI {
             sendToast(`${APP.texts.velocityChanged} ${speed}ms`, 2000);
         };
 
-        // Question Spoof Toggle
         document.getElementById("spoofCheck").onchange = (e) => {
             APP.cfg.spoofCheck = e.target.checked;
             sendToast(APP.cfg.spoofCheck ? APP.texts.spoofOn : APP.texts.spoofOff, 2000);
         };
 
-        // Dark Mode Toggle
         document.getElementById("darkModeCheck").onchange = (e) => {
             APP.cfg.darkMode = e.target.checked;
             if (typeof DarkReader !== "undefined") {
@@ -481,19 +466,16 @@ class UI {
             }
         };
 
-        // Discord Button
         document.getElementById("discordBtn").addEventListener("click", () => {
             window.open(APP.theme.discordUrl, "_blank");
         });
 
-        // Ativar Dark Mode inicial se configurado
         if (APP.cfg.darkMode && typeof DarkReader !== "undefined") {
             DarkReader.enable();
         }
     }
 }
 
-// Classe Core - Funcionalidades principais
 class Core {
     static init() {
         Core.setupMod();
@@ -528,7 +510,7 @@ class Core {
     }
 
     static setupMod() {
-        const messages = ["👽 Certa resposta?", "👻 Made by [@Crimsonstrauss]."];
+        const messages = ["👽 Certa resposta?", "👻 Remake by [@sythiely]."];
         const originalFetch = window.fetch;
 
         window.fetch = async function(url, options) {
@@ -585,7 +567,6 @@ class Core {
     static async setupAuto() {
         const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         
-        // Classes dos botões do Khan Academy (do código original ofuscado)
         const buttonClasses = [
             "._1e5cuk2a",
             "._1tuo6xk", 
@@ -615,13 +596,11 @@ class Core {
         async function autoComplete() {
             if (!APP.cfg.autoCheck) return;
 
-            // Clica em todos os botões de resposta
             for (const className of buttonClasses) {
                 clickButton(className);
                 await delay(APP.cfg.speed / 5);
             }
 
-            // Clica no botão de verificar resposta
             const checkBtn = document.querySelector(checkButtonSelector);
             if (checkBtn) {
                 checkBtn.click();
@@ -629,7 +608,6 @@ class Core {
             }
         }
 
-        // Loop infinito para auto-completar (igual ao código original)
         console.log("🤖 Auto Complete loop iniciado");
         while (true) {
             await autoComplete();
@@ -638,16 +616,13 @@ class Core {
     }
 }
 
-// Gerenciador de atalhos de teclado
 class KeyboardShortcuts {
     static init() {
         document.addEventListener("keydown", (e) => {
-            // Ignora se estiver digitando em um input/textarea
             if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
                 return;
             }
             
-            // Tecla Q - Toggle Menu
             if (e.key === "q" || e.key === "Q") {
                 e.preventDefault();
                 const panel = document.getElementById("crimson-panel");
@@ -662,7 +637,6 @@ class KeyboardShortcuts {
                 }
             }
             
-            // Tecla R - Toggle Notificações
             if (e.key === "r" || e.key === "R") {
                 e.preventDefault();
                 
@@ -684,7 +658,6 @@ class KeyboardShortcuts {
     }
 }
 
-// Inicialização
 async function initApp() {
     try {
         await Core.loadExternalLibraries();
