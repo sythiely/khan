@@ -16,7 +16,6 @@ const APP = {
     }
 };
 
-// Carrega CSS externo
 async function loadCss(url) {
     return new Promise(resolve => {
         const link = document.createElement("link");
@@ -28,7 +27,6 @@ async function loadCss(url) {
     });
 }
 
-// Carrega scripts externos
 async function loadScript(url) {
     return new Promise(resolve => {
         const script = document.createElement("script");
@@ -40,7 +38,6 @@ async function loadScript(url) {
     });
 }
 
-// Sistema de Toast/Notificações
 function sendToast(content, duration = 5000, gravity = "bottom") {
     if (typeof Toastify !== "undefined") {
         Toastify({
@@ -60,12 +57,10 @@ function sendToast(content, duration = 5000, gravity = "bottom") {
     }
 }
 
-// Reproduz áudio de notificação
 const playAudio = (url) => {
     return eval(url).play();
 };
 
-// Classe UI - Interface do Usuário
 class UI {
     static init() {
         const panel = document.createElement("div");
@@ -361,7 +356,6 @@ class UI {
 
         document.body.appendChild(panel);
 
-        // Event Listeners
         const header = document.querySelector(".crimson-header");
         const content = document.querySelector(".crimson-content");
 
@@ -373,21 +367,18 @@ class UI {
             sendToast(isCollapsed ? "Menu recolhido" : "Menu expandido", 2000);
         });
 
-        // Restaurar estado colapsado
         const isCollapsed = localStorage.getItem("crimson-collapsed") === "true";
         if (isCollapsed) {
             header.classList.add("collapsed");
             content.classList.add("collapsed");
         }
 
-        // Auto Complete Toggle
         document.getElementById("autoCheck").onchange = (e) => {
             APP.cfg.autoCheck = e.target.checked;
             document.getElementById("speedControlContainer").style.display = APP.cfg.autoCheck ? "flex" : "none";
             sendToast(APP.cfg.autoCheck ? "✔️ Auto Complete Enabled" : "✖️ Auto Complete Disabled", 3000);
         };
 
-        // Speed Slider
         const speedSlider = document.getElementById("speedSlider");
         const speedValue = document.getElementById("speedValue");
         const speedIndex = APP.cfg.speedOptions.indexOf(APP.cfg.speed);
@@ -406,13 +397,11 @@ class UI {
             sendToast("⏱️ Velocidade alterada para " + speed + "ms", 3000);
         };
 
-        // Question Spoof Toggle
         document.getElementById("spoofCheck").onchange = (e) => {
             APP.cfg.spoofCheck = e.target.checked;
             sendToast(APP.cfg.spoofCheck ? "✔️ Question Spoof Enabled" : "✖️ Question Spoof Disabled", 3000);
         };
 
-        // Dark Mode Toggle
         document.getElementById("darkModeCheck").onchange = (e) => {
             APP.cfg.darkMode = e.target.checked;
             if (typeof DarkReader !== "undefined") {
@@ -429,19 +418,16 @@ class UI {
             }
         };
 
-        // Discord Button
         document.getElementById("discordBtn").addEventListener("click", () => {
             window.open("https://discord.gg/H6V7RWzKgV", "_blank");
         });
 
-        // Ativar Dark Mode inicial se configurado
         if (APP.cfg.darkMode && typeof DarkReader !== "undefined") {
             DarkReader.enable();
         }
     }
 }
 
-// Classe Core - Funcionalidades principais
 class Core {
     static init() {
         Core.setupMod();
@@ -450,9 +436,9 @@ class Core {
 
     static async loadExternalLibraries() {
         try {
-            await loadScript("https://raw.githubusercontent.com/sythiely/khan/refs/heads/main/249v7b8n6758v25b25v4.js");
-            await loadCss("https://raw.githubusercontent.com/sythiely/khan/refs/heads/main/c24524b34nb6b88b48.css");
-            await loadScript("https://raw.githubusercontent.com/sythiely/khan/refs/heads/main/6563v35653667v5v7ern67.js");
+            await loadScript("https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js");
+            await loadCss("https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css");
+            await loadScript("https://cdn.jsdelivr.net/npm/darkreader@4.9.92/darkreader.min.js");
 
             if (typeof DarkReader !== "undefined") {
                 DarkReader.setFetchMethod(window.fetch);
@@ -579,7 +565,6 @@ class Core {
     }
 }
 
-// Inicialização
 async function initApp() {
     try {
         await Core.loadExternalLibraries();
