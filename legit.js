@@ -33,7 +33,7 @@ const APP = {
         velocityChanged: "⏱️ Velocidade:",
         exerciseComplete: "✅ Exercício completo!",
         questionBypassed: "🔓 Question Bypassed",
-        loaded: "☪️ Crimson carregado com sucesso!",
+        loaded: "Platform Destroyer carregado com sucesso!",
         menuVisible: "👁️ Menu visível",
         menuHidden: "🙈 Menu oculto",
         notificationsOff: "🔕 Notificações desativadas",
@@ -526,8 +526,8 @@ class Core {
                             if (widget.type === "radio" && widget.options?.choices) {
                                 widget.options.choices.forEach(choice => {
                                     if (choice.correct === true) {
-                                        if (!choice.content.includes("✔️")) {
-                                            choice.content = "✔️ " + choice.content;
+                                        if (!choice.content.includes("...")) {
+                                            choice.content = "... " + choice.content;
                                         }
                                     }
                                 });
